@@ -54,7 +54,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Rendering\RenderObject.cs" />
-    <Compile Include="Rendering\Volumes\VolumeCube.cs" />
+    <Compile Include="Rendering\Volumes\Cube.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

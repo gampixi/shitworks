@@ -15,7 +15,8 @@ namespace ShItWorks.Rendering
 
         public RenderObject()
         {
-            Game.Current.OnGatherRenderers += Game.Current.GatherRenderer;
+            Game.Current.Renderers.Add(this);
+            ConsoleLog.Message($"{this.ToString()} constructed and added to Renderers list");
         }
 
         public void SetVertices(Vector3[] newVertices)
@@ -35,7 +36,17 @@ namespace ShItWorks.Rendering
 
         public int[] GetIndices(int offset = 0)
         {
-            return indices;
+            int[] temp = indices;
+
+            if (offset != 0)
+            {
+                for (int i = 0; i < temp.Length; i++)
+                {
+                    temp[i] += offset;
+                }
+            }
+
+            return temp;
         }
 
         public void SetColors(Vector3[] newColors)
@@ -57,7 +68,8 @@ namespace ShItWorks.Rendering
             {
                 if (disposing)
                 {
-                    // TODO: dispose managed state (managed objects).
+                    ConsoleLog.Message($"Disposing of {this.ToString()}");
+                    Game.Current.Renderers.Remove(this);
                 }
 
                 // TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.
