@@ -17,7 +17,7 @@ namespace ShItWorks
         private double totalTime = 0.0f;
         public double TotalTime { get { return totalTime; } }
 
-        public Game() : base(640, 480)
+        public Game() : base(640, 480, new GraphicsMode(32, 24, 0, 2))
         {
             Title = "ShItWorks Game";
             Current = this;
@@ -39,10 +39,12 @@ namespace ShItWorks
         private int vbo_position;
         private int vbo_color;
         private int vbo_mView;
+        private int ibo_elements;
 
         private Vector3[] vertData;
         private Vector3[] colData;
         private Matrix4[] mViewData;
+        private int[] indData;
 
         private void InitalizeProgram()
         {
@@ -57,6 +59,8 @@ namespace ShItWorks
             in_vCol = GL.GetAttribLocation(programID, "vColor");
             in_vPos = GL.GetAttribLocation(programID, "vPosition");
             uniform_mView = GL.GetUniformLocation(programID, "modelview");
+
+            GL.GenBuffers(1, out ibo_elements);
 
             if(in_vCol == -1 || in_vPos == -1 || uniform_mView == -1)
             {
@@ -86,15 +90,46 @@ namespace ShItWorks
             InitalizeProgram();
 
             vertData = new Vector3[] {
-                new Vector3(-0.8f, -0.8f, 0f),
-                new Vector3(0.8f, -0.8f, 0f),
-                new Vector3(0f, 0.8f, 0f)
+                new Vector3(-0.8f, -0.8f,  -0.8f),
+                new Vector3(0.8f, -0.8f,  -0.8f),
+                new Vector3(0.8f, 0.8f,  -0.8f),
+                new Vector3(-0.8f, 0.8f,  -0.8f),
+                new Vector3(-0.8f, -0.8f,  0.8f),
+                new Vector3(0.8f, -0.8f,  0.8f),
+                new Vector3(0.8f, 0.8f,  0.8f),
+                new Vector3(-0.8f, 0.8f,  0.8f),
             };
 
             colData = new Vector3[] {
                 new Vector3(1f, 0f, 0f),
-                new Vector3(0f, 1f, 0f),
-                new Vector3(0f, 0f, 1f)
+                new Vector3( 0f, 0f, 1f),
+                new Vector3( 0f,  1f, 0f),
+                new Vector3(1f, 0f, 0f),
+                new Vector3( 0f, 0f, 1f),
+                new Vector3( 0f,  1f, 0f),
+                new Vector3(1f, 0f, 0f),
+                new Vector3( 0f, 0f, 1f)
+            };
+
+            indData = new int[]{
+                //front
+                0, 7, 3,
+                0, 4, 7,
+                //back
+                1, 2, 6,
+                6, 5, 1,
+                //left
+                0, 2, 1,
+                0, 3, 2,
+                //right
+                4, 5, 6,
+                6, 7, 4,
+                //top
+                2, 3, 6,
+                6, 3, 7,
+                //bottom
+                0, 1, 5,
+                0, 5, 4
             };
 
             mViewData = new Matrix4[]
@@ -113,6 +148,9 @@ namespace ShItWorks
             GL.BindBuffer(BufferTarget.ArrayBuffer, vbo_color);
             GL.BufferData<Vector3>(BufferTarget.ArrayBuffer, colData.Length * Vector3.SizeInBytes, colData, BufferUsageHint.StaticDraw);
             GL.VertexAttribPointer(in_vCol, 3, VertexAttribPointerType.Float, false, 0, 0);
+
+            GL.BindBuffer(BufferTarget.ElementArrayBuffer, ibo_elements);
+            GL.BufferData(BufferTarget.ElementArrayBuffer, (indData.Length * sizeof(int)), indData, BufferUsageHint.StaticDraw);
 
             GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
         }
@@ -136,8 +174,12 @@ namespace ShItWorks
 
             //Program must be used before anything is bound or uniforms set
             GL.UseProgram(programID);
+            //Temporary stuff for doing camera stuff
+            mViewData[0] = Matrix4.CreateRotationX(0.163f * (float)TotalTime) * Matrix4.CreateRotationY(0.533f * (float)TotalTime)
+                * Matrix4.CreateTranslation(0.0f, 0.0f, -3.0f)
+                * Matrix4.CreatePerspectiveFieldOfView(1.3f, (float)Width / Height, 1.0f, 40.0f);
             GL.UniformMatrix4(uniform_mView, false, ref mViewData[0]);
-            GL.DrawArrays(PrimitiveType.Triangles, 0, 3);
+            GL.DrawElements(BeginMode.Triangles, indData.Length, DrawElementsType.UnsignedInt, 0);
 
             GL.DisableVertexAttribArray(in_vPos);
             GL.DisableVertexAttribArray(in_vCol);
