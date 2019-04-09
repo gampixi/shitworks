@@ -5,13 +5,18 @@ using ShItWorks.Nodes;
 
 namespace ShItWorks.Rendering
 {
-    public class RenderObject
+    public class RenderObject : IDisposable
     {
-        private BaseNode baseNode;
+        public BaseNode BaseNode;
 
         private Vector3[] vertices;
         private int[] indices;
         private Vector3[] colors;
+
+        public RenderObject()
+        {
+            Game.Current.OnGatherRenderers += Game.Current.GatherRenderer;
+        }
 
         public void SetVertices(Vector3[] newVertices)
         {
@@ -42,6 +47,32 @@ namespace ShItWorks.Rendering
         {
             return colors;
         }
+
+        #region IDisposable Support
+        private bool disposedValue = false; // To detect redundant calls
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    // TODO: dispose managed state (managed objects).
+                }
+
+                // TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.
+                // TODO: set large fields to null.
+
+                disposedValue = true;
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+        }
+        #endregion
+
 
     }
 }

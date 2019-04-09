@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.IO;
+using System.Collections.Generic;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL4;
@@ -45,6 +46,27 @@ namespace ShItWorks
         private Vector3[] colData;
         private Matrix4[] mViewData;
         private int[] indData;
+
+        public List<Nodes.BaseNode> AllNodes;
+        //public delegate void GatherRenderer(Rendering.RenderObject r);
+        public event EventHandler<EventArgs> OnGatherRenderers;
+
+        private void ClearRenderers() { renderers.Clear(); }
+        public void GatherRenderer(object sender, EventArgs e) { renderers.Add((Rendering.RenderObject)sender); }
+
+        private List<Rendering.RenderObject> renderers = new List<Rendering.RenderObject>();
+
+        private void AddTestCubes()
+        {
+            Nodes.DrawableNode cube1 = new Nodes.DrawableNode();
+            cube1.Transformation.Position = Vector3.One * 2;
+            cube1.Renderer = new Rendering.Volumes.Cube();
+            AllNodes.Add(cube1);
+            Nodes.DrawableNode cube2 = new Nodes.DrawableNode();
+            cube2.Transformation.Rotation = Vector3.One * 0.3f;
+            cube2.Renderer = new Rendering.Volumes.Cube();
+            AllNodes.Add(cube2);
+        }
 
         private void InitalizeProgram()
         {

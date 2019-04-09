@@ -48,8 +48,13 @@
   <ItemGroup>
     <Compile Include="Console\ConsoleDebugExtensions.cs" />
     <Compile Include="Game.cs" />
+    <Compile Include="Nodes\BaseNode.cs" />
+    <Compile Include="Nodes\DrawableNode.cs" />
+    <Compile Include="Nodes\Transformation.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Rendering\RenderObject.cs" />
+    <Compile Include="Rendering\Volumes\VolumeCube.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
