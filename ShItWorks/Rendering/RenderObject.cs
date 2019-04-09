@@ -13,10 +13,10 @@ namespace ShItWorks.Rendering
         private int[] indices;
         private Vector3[] colors;
 
-        public RenderObject()
+        protected void RegisterAsRenderer(RenderObject r)
         {
-            Game.Current.Renderers.Add(this);
-            ConsoleLog.Message($"{this.ToString()} constructed and added to Renderers list");
+            Game.Current.Renderers.Add(r);
+            ConsoleLog.Message($"{r.ToString()} constructed and added to Renderers list");
         }
 
         public void SetVertices(Vector3[] newVertices)

@@ -7,6 +7,8 @@ namespace ShItWorks.Rendering.Volumes
     {
         public Cube()
         {
+            RegisterAsRenderer(this);
+
             SetVertices(new Vector3[]
             {
                 new Vector3(-0.5f, -0.5f,  -0.5f),

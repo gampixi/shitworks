@@ -52,10 +52,11 @@ namespace ShItWorks
         private void AddTestCubes()
         {
             Nodes.DrawableNode cube1 = new Nodes.DrawableNode();
-            cube1.Transformation.Position = Vector3.One * 2;
+            cube1.Transformation.Position = new Vector3(0, 0, -2);
             cube1.Renderer = new Rendering.Volumes.Cube();
             AllNodes.Add(cube1);
             Nodes.DrawableNode cube2 = new Nodes.DrawableNode();
+            cube2.Transformation.Position = new Vector3(1, 1, -2);
             cube2.Transformation.Rotation = Vector3.One * 0.3f;
             cube2.Renderer = new Rendering.Volumes.Cube();
             AllNodes.Add(cube2);
@@ -126,6 +127,7 @@ namespace ShItWorks
                 inds.AddRange(r.GetIndices(vertCount));
                 cols.AddRange(r.GetColors());
                 vertCount += r.GetIndices().Length;
+                ConsoleLog.Message($"{r.ToString()} added to rendering data. Total vertex count is {vertCount}");
             }
 
             vertData = verts.ToArray();
@@ -174,7 +176,8 @@ namespace ShItWorks
                 Matrix4 view = Matrix4.CreatePerspectiveFieldOfView(1.4f, (float)Width / Height, 1.0f, 40.0f);
                 Matrix4 mvpm = r.BaseNode.Transformation.ModelMatrix * view;
                 GL.UniformMatrix4(uniform_mView, false, ref mvpm);
-                GL.DrawElements(BeginMode.Triangles, r.GetIndices().Length, DrawElementsType.UnsignedInt, currentIndex * sizeof(uint));
+                //GL.DrawElements(BeginMode.Triangles, r.GetIndices().Length, DrawElementsType.UnsignedInt, currentIndex * sizeof(uint));
+                GL.DrawRangeElements(PrimitiveType.Triangles, currentIndex, currentIndex + r.GetIndices().Length - 1, r.GetIndices().Length, DrawElementsType.UnsignedInt, IntPtr.Zero);
                 currentIndex += r.GetIndices().Length;
             }
 
