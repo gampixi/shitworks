@@ -151,6 +151,7 @@ namespace ShItWorks
         protected void OnResize(object sender, EventArgs e)
         {
             GL.Viewport(0, 0, Width, Height);
+            ConsoleLog.Message($"{this.ToString()} resized to {Width}x{Height}");
         }
 
         protected void OnUpdateFrame(object sender, FrameEventArgs e)
