@@ -47,7 +47,21 @@ namespace ShItWorks
         private int[] indData;
 
         public List<Nodes.BaseNode> AllNodes = new List<Nodes.BaseNode>();
+
+        private bool renderersDirty = true;
         public List<Rendering.RenderObject> Renderers = new List<Rendering.RenderObject>();
+
+        public void RegisterRenderer(Rendering.RenderObject r)
+        {
+            Renderers.Add(r);
+            renderersDirty = true;
+        }
+
+        public void DeregisterRenderer(Rendering.RenderObject r)
+        {
+            Renderers.Remove(r);
+            renderersDirty = true;
+        }
 
         private void AddTestCubes()
         {
@@ -110,7 +124,6 @@ namespace ShItWorks
             GL.Enable(EnableCap.DepthTest);
 
             AddTestCubes();
-            UpdateRenderingData();
         }
 
         private void UpdateRenderingData()
@@ -146,6 +159,8 @@ namespace ShItWorks
             GL.BufferData(BufferTarget.ElementArrayBuffer, (indData.Length * sizeof(int)), indData, BufferUsageHint.StaticDraw);
 
             GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
+
+            renderersDirty = false;
         }
 
         protected void OnResize(object sender, EventArgs e)
@@ -161,6 +176,8 @@ namespace ShItWorks
 
         protected void OnRenderFrame(object sender, FrameEventArgs e)
         {
+            if (renderersDirty) UpdateRenderingData();
+
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
             
             GL.EnableVertexAttribArray(in_vPos);

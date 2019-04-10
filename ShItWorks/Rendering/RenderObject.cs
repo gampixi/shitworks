@@ -27,7 +27,7 @@ namespace ShItWorks.Rendering
                 ConsoleLog.Warning($"Attempt to register already registered RenderObject {r.ToString()}");
                 return;
             }
-            Game.Current.Renderers.Add(r);
+            Game.Current.RegisterRenderer(r);
             registered = true;
             ConsoleLog.Message($"{r.ToString()} constructed and added to Renderers list");
         }
@@ -40,7 +40,7 @@ namespace ShItWorks.Rendering
                 ConsoleLog.Warning($"Attempt to deregister unregistered RenderObject {r.ToString()}");
                 return;
             }
-            Game.Current.Renderers.Remove(this);
+            Game.Current.DeregisterRenderer(r);
             registered = false;
             ConsoleLog.Message($"{r.ToString()} removed from Renderers list");
         }
