@@ -13,10 +13,36 @@ namespace ShItWorks.Rendering
         private int[] indices;
         private Vector3[] colors;
 
-        protected void RegisterAsRenderer(RenderObject r)
+        public RenderObject()
         {
+            RegisterRenderer();
+        }
+
+        private bool registered = false;
+        protected void RegisterRenderer(RenderObject r = null)
+        {
+            if (r == null) r = this;
+            if (registered)
+            {
+                ConsoleLog.Warning($"Attempt to register already registered RenderObject {r.ToString()}");
+                return;
+            }
             Game.Current.Renderers.Add(r);
+            registered = true;
             ConsoleLog.Message($"{r.ToString()} constructed and added to Renderers list");
+        }
+
+        protected void DeregisterRenderer(RenderObject r = null)
+        {
+            if (r == null) r = this;
+            if (!registered)
+            {
+                ConsoleLog.Warning($"Attempt to deregister unregistered RenderObject {r.ToString()}");
+                return;
+            }
+            Game.Current.Renderers.Remove(this);
+            registered = false;
+            ConsoleLog.Message($"{r.ToString()} removed from Renderers list");
         }
 
         public void SetVertices(Vector3[] newVertices)
@@ -69,7 +95,7 @@ namespace ShItWorks.Rendering
                 if (disposing)
                 {
                     ConsoleLog.Message($"Disposing of {this.ToString()}");
-                    Game.Current.Renderers.Remove(this);
+                    DeregisterRenderer();
                 }
 
                 // TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.

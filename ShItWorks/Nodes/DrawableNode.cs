@@ -6,11 +6,14 @@ namespace ShItWorks.Nodes
     public class DrawableNode : BaseNode
     {
         private RenderObject renderer;
-        public RenderObject Renderer { get => renderer; set { renderer = value; renderer.BaseNode = this; } }
+        public RenderObject Renderer {
+            get => renderer;
+            set { renderer = value; if(renderer != null) renderer.BaseNode = this; }
+        }
 
         public DrawableNode()
         {
-            Renderer = new RenderObject();
+            Renderer = null;
         }
 
         public DrawableNode(RenderObject render)
