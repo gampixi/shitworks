@@ -176,6 +176,9 @@ namespace ShItWorks
 
         protected void OnRenderFrame(object sender, FrameEventArgs e)
         {
+            // Logic loop begins here
+            Logic.Dispatcher.HandleInitDispatch();
+            Logic.Dispatcher.HandleLoopDispatch();
             if (renderersDirty) UpdateRenderingData();
 
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
