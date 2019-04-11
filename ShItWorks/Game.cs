@@ -51,6 +51,25 @@ namespace ShItWorks
         private int[] indData;
 
         public List<Nodes.BaseNode> AllNodes = new List<Nodes.BaseNode>();
+        
+        public void RegisterNode(Nodes.BaseNode n)
+        {
+            AllNodes.Add(n);
+            ConsoleLog.Message($"New Node {n.ToString()} registered");
+        }
+
+        public void DeregisterNode(Nodes.BaseNode n)
+        {
+            try
+            {
+                AllNodes.Remove(n);
+                ConsoleLog.Message($"Node {n.ToString()} deregistered, should get picked up by GC");
+            }
+            catch
+            {
+                ConsoleLog.Warning($"Attempt to deregister unregistered node {n.ToString()}");
+            }
+        }
 
         private bool renderersDirty = true;
         public List<Rendering.RenderObject> Renderers = new List<Rendering.RenderObject>();
@@ -63,21 +82,26 @@ namespace ShItWorks
 
         public void DeregisterRenderer(Rendering.RenderObject r)
         {
-            Renderers.Remove(r);
-            renderersDirty = true;
+            try
+            {
+                Renderers.Remove(r);
+                renderersDirty = true;
+            }
+            catch
+            {
+                ConsoleLog.Warning($"Attempt to deregister unregistered renderer {r.ToString()}");
+            }
         }
 
         private void AddTestCubes()
         {
-            Nodes.DrawableNode cube1 = new Nodes.DrawableNode();
+            Nodes.Scripted.RotatingObject cube1 = new Nodes.Scripted.RotatingObject();
             cube1.Transformation.Position = new Vector3(0, 0, -2);
             cube1.Renderer = new Rendering.Volumes.Cube();
-            AllNodes.Add(cube1);
-            Nodes.DrawableNode cube2 = new Nodes.DrawableNode();
+            Nodes.Scripted.RotatingObject cube2 = new Nodes.Scripted.RotatingObject();
             cube2.Transformation.Position = new Vector3(1, 1, -2);
             cube2.Transformation.Rotation = Vector3.One * 0.3f;
             cube2.Renderer = new Rendering.Volumes.Cube();
-            AllNodes.Add(cube2);
         }
 
         private void InitalizeProgram()

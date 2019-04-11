@@ -15,7 +15,14 @@ namespace ShItWorks.Logic
 
         public static void RemoveInitDispatcher(IInitLogic d)
         {
-            initDispatch.Remove(d);
+            try
+            {
+                initDispatch.Remove(d);
+            }
+            catch
+            {
+                ConsoleLog.Message("Attempt to remove already fired init dispatcher");
+            }
         }
 
         public static void AddLoopDispatcher(ILoopLogic d)
@@ -25,8 +32,15 @@ namespace ShItWorks.Logic
 
         public static void RemoveLoopDispatcher(ILoopLogic d)
         {
-            loopDispatch.Remove(d);
-        }
+            try
+            {
+                loopDispatch.Remove(d);
+            }
+            catch
+            {
+                ConsoleLog.Warning("Attempt to remove nonexistant loop dispatcher");
+            }
+}
 
         public static void HandleInitDispatch()
         {

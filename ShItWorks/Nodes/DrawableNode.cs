@@ -3,7 +3,7 @@ using ShItWorks.Rendering;
 
 namespace ShItWorks.Nodes
 {
-    public class DrawableNode : BaseNode, IDisposable
+    public class DrawableNode : BaseNode
     {
         private RenderObject renderer;
         public RenderObject Renderer {
@@ -32,13 +32,7 @@ namespace ShItWorks.Nodes
                 }
                 disposedValue = true;
             }
-        }
-
-        // This code added to correctly implement the disposable pattern.
-        public new void Dispose()
-        {
-            // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
-            Dispose(true);
+            base.Dispose(disposing);
         }
         #endregion
     }

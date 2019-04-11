@@ -7,6 +7,21 @@ namespace ShItWorks.Nodes
     {
         public Transformation Transformation = new Transformation();
 
+        public BaseNode()
+        {
+            RegisterNode();
+        }
+
+        protected void RegisterNode()
+        {
+            Game.Current.RegisterNode(this);
+        }
+
+        protected void DeregisterNode()
+        {
+            Game.Current.DeregisterNode(this);
+        }
+
         #region IDisposable Support
         protected bool disposedValue = false; // To detect redundant calls
 
@@ -16,7 +31,7 @@ namespace ShItWorks.Nodes
             {
                 if (disposing)
                 {
-                    // TODO: dispose managed state (managed objects).
+                    DeregisterNode();
                 }
                 disposedValue = true;
             }

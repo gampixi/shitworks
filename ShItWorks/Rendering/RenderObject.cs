@@ -94,7 +94,6 @@ namespace ShItWorks.Rendering
             {
                 if (disposing)
                 {
-                    ConsoleLog.Message($"Disposing of {this.ToString()}");
                     DeregisterRenderer();
                 }
 

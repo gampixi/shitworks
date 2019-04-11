@@ -12,6 +12,7 @@ namespace ShItWorks.Nodes.Scripted
         private float rotateMultiplier = 1f;
 
         private Vector3 startingPosition = Vector3.Zero;
+        private Vector3 bobDirection = Vector3.Zero;
         public float BobFrequency = 10f;
         public float BobAmplitude = 2f;
 
@@ -25,11 +26,21 @@ namespace ShItWorks.Nodes.Scripted
         {
             startingPosition = Transformation.Position;
             rotateMultiplier = RNG.Range(MinRotateSpeedMult, MaxRotateSpeedMult);
+            bobDirection = RotateSpeed.Normalized();
         }
 
         public void OnLoop()
         {
-            throw new NotImplementedException();
+            Vector3 pos = startingPosition;
+            pos += bobDirection * BobAmplitude * (float)Math.Sin(BobFrequency * Game.Current.TotalTime);
+            Transformation.Rotate(RotateSpeed * Game.Current.DeltaTime);
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            Dispatcher.RemoveInitDispatcher(this);
+            Dispatcher.RemoveLoopDispatcher(this);
+            base.Dispose(disposing);
         }
     }
 }
