@@ -7,7 +7,7 @@ namespace ShItWorks
         public static void Message(object m)
         {
             if (string.IsNullOrEmpty(m.ToString())) return;
-            Console.WriteLine($"{Game.Current.TotalTime} \t--> {m.ToString()}");
+            Console.WriteLine($"{Game.Current.TotalTime.ToString("0.00")} \t--> {m.ToString()}");
         }
 
         public static void Warning(object m)
