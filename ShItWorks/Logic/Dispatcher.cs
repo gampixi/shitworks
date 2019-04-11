@@ -5,12 +5,19 @@ namespace ShItWorks.Logic
 {
     public static class Dispatcher
     {
+        private static List<IInitLogic> initBuffer = new List<IInitLogic>();
+        //initRemoveBuffer removes items from initBuffer
+        private static List<IInitLogic> initRemoveBuffer = new List<IInitLogic>();
         private static List<IInitLogic> initDispatch = new List<IInitLogic>();
+
+        private static List<ILoopLogic> loopBuffer = new List<ILoopLogic>();
+        //loopRemoveBuffer removes items from both loopBuffer and loopDispatch simultaneously
+        private static List<ILoopLogic> loopRemoveBuffer = new List<ILoopLogic>();
         private static List<ILoopLogic> loopDispatch = new List<ILoopLogic>();
 
         public static void AddInitDispatcher(IInitLogic d)
         {
-            initDispatch.Add(d);
+            initBuffer.Add(d);
             ConsoleLog.Message("Init dispatcher registered.");
         }
 
@@ -18,7 +25,7 @@ namespace ShItWorks.Logic
         {
             try
             {
-                initDispatch.Remove(d);
+                initRemoveBuffer.Add(d);
             }
             catch
             {
@@ -28,7 +35,7 @@ namespace ShItWorks.Logic
 
         public static void AddLoopDispatcher(ILoopLogic d)
         {
-            loopDispatch.Add(d);
+            loopBuffer.Add(d);
             ConsoleLog.Message("Loop dispatcher registered.");
         }
 
@@ -36,7 +43,7 @@ namespace ShItWorks.Logic
         {
             try
             {
-                loopDispatch.Remove(d);
+                loopRemoveBuffer.Add(d);
             }
             catch
             {
@@ -46,6 +53,18 @@ namespace ShItWorks.Logic
 
         public static void HandleInitDispatch()
         {
+            foreach(var d in initRemoveBuffer)
+            {
+                initBuffer.Remove(d);
+            }
+            initRemoveBuffer.Clear();
+
+            foreach(var d in initBuffer)
+            {
+                initDispatch.Add(d);
+            }
+            initBuffer.Clear();
+
             foreach(var d in initDispatch)
             {
                 d.OnInit();
@@ -56,6 +75,17 @@ namespace ShItWorks.Logic
 
         public static void HandleLoopDispatch()
         {
+            foreach(var d in loopRemoveBuffer)
+            {
+                loopBuffer.Remove(d);
+                loopDispatch.Remove(d);
+            }
+
+            foreach(var d in loopBuffer)
+            {
+                loopDispatch.Add(d);
+            }
+
             foreach(var d in loopDispatch)
             {
                 d.OnLoop();
@@ -66,6 +96,8 @@ namespace ShItWorks.Logic
         {
             initDispatch.Clear();
             loopDispatch.Clear();
+            initBuffer.Clear();
+            loopBuffer.Clear();
         }
     }
 }
