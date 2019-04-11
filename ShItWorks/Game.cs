@@ -93,15 +93,16 @@ namespace ShItWorks
             }
         }
 
-        private void AddTestCubes()
+        private void AddCubeSpawner()
         {
-            Nodes.Scripted.RotatingObject cube1 = new Nodes.Scripted.RotatingObject();
+            /*Nodes.Scripted.RotatingObject cube1 = new Nodes.Scripted.RotatingObject();
             cube1.Transformation.Position = new Vector3(0, 0, -2);
             cube1.Renderer = new Rendering.Volumes.Cube();
             Nodes.Scripted.RotatingObject cube2 = new Nodes.Scripted.RotatingObject();
             cube2.Transformation.Position = new Vector3(1, 1, -2);
             cube2.Transformation.Rotation = Vector3.One * 0.3f;
-            cube2.Renderer = new Rendering.Volumes.Cube();
+            cube2.Renderer = new Rendering.Volumes.Cube();*/
+            Nodes.Scripted.RotatingCubeManager cubeManager = new Nodes.Scripted.RotatingCubeManager();
         }
 
         private void InitalizeProgram()
@@ -151,7 +152,7 @@ namespace ShItWorks
             GL.PointSize(5f);
             GL.Enable(EnableCap.DepthTest);
 
-            AddTestCubes();
+            AddCubeSpawner();
         }
 
         private void UpdateRenderingData()
