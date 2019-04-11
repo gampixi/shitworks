@@ -7,14 +7,14 @@ namespace ShItWorks.Nodes.Scripted
     public class RotatingObject : DrawableNode, ILoopLogic, IInitLogic
     {
         public Vector3 RotateSpeed = new Vector3(30, -10, 5);
-        public float MinRotateSpeedMult = 1f;
-        public float MaxRotateSpeedMult = 10f;
+        public float MinRotateSpeedMult = 0.2f;
+        public float MaxRotateSpeedMult = 4f;
         private float rotateMultiplier = 1f;
 
         private Vector3 startingPosition = Vector3.Zero;
         private Vector3 bobDirection = Vector3.Zero;
-        public float BobFrequency = 10f;
-        public float BobAmplitude = 2f;
+        public float BobFrequency = 5f;
+        public float BobAmplitude = 4f;
 
         public RotatingObject()
         {
@@ -33,7 +33,8 @@ namespace ShItWorks.Nodes.Scripted
         {
             Vector3 pos = startingPosition;
             pos += bobDirection * BobAmplitude * (float)Math.Sin(BobFrequency * Game.Current.TotalTime);
-            Transformation.Rotate(RotateSpeed * Game.Current.DeltaTime);
+            Transformation.Position = pos;
+            Transformation.Rotate(RotateSpeed * Game.Current.DeltaTime * rotateMultiplier);
         }
 
         protected override void Dispose(bool disposing)

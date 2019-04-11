@@ -51,6 +51,7 @@
     <Compile Include="Logic\Dispatcher.cs" />
     <Compile Include="Logic\IInitLogic.cs" />
     <Compile Include="Logic\ILoopLogic.cs" />
+    <Compile Include="Logic\RNG.cs" />
     <Compile Include="Nodes\BaseNode.cs" />
     <Compile Include="Nodes\DrawableNode.cs" />
     <Compile Include="Nodes\Scripted\RotatingObject.cs" />
