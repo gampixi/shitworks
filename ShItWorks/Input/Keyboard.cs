@@ -25,22 +25,22 @@ namespace ShItWorks.Input
 
         public static bool KeyDown(OpenTK.Input.Key key)
         {
-            return currentState.IsKeyDown(key);
+            return CurrentState.IsKeyDown(key);
         }
 
         public static bool KeyPressed(OpenTK.Input.Key key)
         {
-            return (currentState.IsKeyDown(key) && lastState.IsKeyUp(key));
+            return (CurrentState.IsKeyDown(key) && lastState.IsKeyUp(key));
         }
 
         public static bool KeyUp(OpenTK.Input.Key key)
         {
-            return currentState.IsKeyUp(key);
+            return CurrentState.IsKeyUp(key);
         }
 
         public static bool KeyReleased(OpenTK.Input.Key key)
         {
-            return (currentState.IsKeyUp(key) && lastState.IsKeyDown(key));
+            return (CurrentState.IsKeyUp(key) && lastState.IsKeyDown(key));
         }
     }
 }

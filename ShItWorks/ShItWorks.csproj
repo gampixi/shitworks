@@ -48,12 +48,14 @@
   <ItemGroup>
     <Compile Include="Console\ConsoleDebugExtensions.cs" />
     <Compile Include="Game.cs" />
+    <Compile Include="Input\Keyboard.cs" />
     <Compile Include="Logic\Dispatcher.cs" />
     <Compile Include="Logic\IInitLogic.cs" />
     <Compile Include="Logic\ILoopLogic.cs" />
     <Compile Include="Logic\RNG.cs" />
     <Compile Include="Nodes\BaseNode.cs" />
     <Compile Include="Nodes\DrawableNode.cs" />
+    <Compile Include="Nodes\Scripted\RotatingCubeManager.cs" />
     <Compile Include="Nodes\Scripted\RotatingObject.cs" />
     <Compile Include="Nodes\Transformation.cs" />
     <Compile Include="Program.cs" />

@@ -11,6 +11,7 @@ namespace ShItWorks.Logic
         public static void AddInitDispatcher(IInitLogic d)
         {
             initDispatch.Add(d);
+            ConsoleLog.Message("Init dispatcher registered.");
         }
 
         public static void RemoveInitDispatcher(IInitLogic d)
@@ -28,6 +29,7 @@ namespace ShItWorks.Logic
         public static void AddLoopDispatcher(ILoopLogic d)
         {
             loopDispatch.Add(d);
+            ConsoleLog.Message("Loop dispatcher registered.");
         }
 
         public static void RemoveLoopDispatcher(ILoopLogic d)
