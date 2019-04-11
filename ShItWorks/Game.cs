@@ -15,8 +15,12 @@ namespace ShItWorks
         private uint totalFrames = 0;
         public uint TotalFrames { get { return totalFrames; } }
 
-        private double totalTime = 0.0f;
-        public double TotalTime { get { return totalTime; } }
+        private float totalTime = 0.0f;
+        public float TotalTime { get { return totalTime; } }
+
+        private float deltaTime = 1.0f;
+        public float DeltaTime { get => deltaTime; }
+
 
         public Game() : base(640, 480, new GraphicsMode(32, 24, 0, 2))
         {
@@ -176,6 +180,10 @@ namespace ShItWorks
 
         protected void OnRenderFrame(object sender, FrameEventArgs e)
         {
+            totalFrames++;
+            totalTime += (float)e.Time;
+            deltaTime = (float)e.Time;
+
             // Logic loop begins here
             Logic.Dispatcher.HandleInitDispatch();
             Logic.Dispatcher.HandleLoopDispatch();
@@ -206,9 +214,6 @@ namespace ShItWorks
             GL.DisableVertexAttribArray(in_vCol);
 
             SwapBuffers();
-
-            totalFrames++;
-            totalTime += e.Time;
         }
     }
 }

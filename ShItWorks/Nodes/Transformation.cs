@@ -26,5 +26,23 @@ namespace ShItWorks.Nodes
                 * Matrix4.CreateTranslation(Position);
             matrixDirty = false;
         }
+
+        /// <summary>
+        /// Translates in global coordinates
+        /// </summary>
+        /// <param name="delta">Amount to translate by</param>
+        public void Translate(Vector3 delta)
+        {
+            Position += delta;
+        }
+
+        /// <summary>
+        /// Rotates in global coordinates
+        /// </summary>
+        /// <param name="eulerDelta">Amount in degrees to rotate by</param>
+        public void Rotate(Vector3 eulerDelta)
+        {
+            Rotation += eulerDelta;
+        }
     }
 }
